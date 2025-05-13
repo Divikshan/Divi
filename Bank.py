@@ -1,5 +1,109 @@
 #-------Main_Manu--------
 
+def Main_Manu():
+    while True:
+        print("1.Admin.")
+        print("2.User_Account.")
+        print("3.Exit.")
+        Options = int(input("Chose_Your_Option 1,2,3: "))
+
+        if Options==1:
+            print(Admin())
+        elif Options==2:
+            print(Bank_info())
+        elif Options==3:
+            print(Exit())
+            break
+        else:
+            print("Involude_Option_Try_Again.")
+
+
+#-----------Globals--------------
+
+
+Next_account_number = 1001
+accounts = {}
+Admin_Username = "Divi_Harsha"
+Admin_Password = "Divi2004"
+
+#---------------------------------------Functions--------------------------------------------
+
+
+#------------Admin------------
+
+def Admin():
+    Username = input("Enter_the_username:")
+    Password = input("Enter_the_password:")
+
+    if Username == Admin_Username and Password == Admin_Password:
+        print("Login_Successful.")
+        Admin_Options()
+
+    else:
+        print("Invalid_login.")
+
+
+       
+def Admin_Options():
+    while True:
+        print("\n---Admin_Options---")
+        print("1.View_all_accounts.")
+        print("2.Delete_an_account.")
+        print("3.Exit.")
+
+        Options = int(input("Chose_Your_Option 1,2,3:"))
+
+        if Options == 1:
+            View_All_Accounts()
+        elif Options == 2:
+            Delete_Account()
+        elif Options == 3:
+            Exit()
+            break
+        else:
+            print("Invalid_Options.")
+
+
+def View_All_Accounts():
+    if not accounts:
+        print("No_accounts")
+        return
+
+    print("\n---All_Accounts---")
+    for account_number, details in accounts.items():
+        print(f"Account Number: {account_number}")
+        print(f"Name: {details['Name']}")
+        print(f"Username: {details['Username']}")
+        print(f"Balance: {details['Balance']}")
+        print(f"Transaction History: {details['Transaction_History']}")
+        print("--------------------")
+
+
+def Delete_Account():
+
+    try:
+        account_number = int(input("Enter Account Number to Delete: "))
+    except ValueError:
+        print("Invalid account number.")
+        return
+
+    account = accounts.get(account_number)
+    if not account:
+        print("Account not found.")
+        return
+
+    del accounts[account_number]
+    print(f"Account {account_number} has been deleted.")
+
+    # Update the customer file (optional)
+    with open("customer.txt", "w") as file:
+        for account_number, details in accounts.items():
+            file.write(f"{account_number},{details['Username']},{details['Password']},{details['Balance']}\n")
+
+
+
+#-------Bank_info--------
+
 def Bank_info():
     while True:
         print("---Banking_System---")
@@ -8,9 +112,8 @@ def Bank_info():
         print("3.Withdraw_Money")
         print("4.Check_Balance")
         print("5.Transation_History")
-        print("6.Admin")
-        print("7.Exit")
-        Options = int(input("Chose_Your_Option 1,2,3,4,5,6,7: "))
+        print("6.Exit")
+        Options = int(input("Chose_Your_Option 1,2,3,4,5,6,: "))
 
 #---------Calling_Functions------------
 
@@ -30,24 +133,12 @@ def Bank_info():
             print(Transation_History())
 
         elif Options==6:
-            print(Admin())
-            
-        elif Options==7:
             print(Exit())
-            break
+            break           
 
         else:
-            print("Involude_Option_Try_Again")
+            print("Involude_Option_Try_Again.")
 
-#-----------Globals--------------
-
-
-Next_account_number = 1001
-accounts = {}
-Admin_Username = "Divi_Harsha"
-Admin_Password = "Divi2004"
-
-#---------------------------------------Functions--------------------------------------------
 
 
 #-----------Account--------------
@@ -314,6 +405,7 @@ def Exit():
     print("\nThank you for using our service!")
     print("Have a great day!")
 
-Bank_info()
+
+Main_Manu()
 
 
